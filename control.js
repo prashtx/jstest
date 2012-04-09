@@ -102,6 +102,9 @@ function base() {
   .add('RegExp switch meta function', function() {
     c(fullText);
   })
+  .add('simple RegExp exec', function() {
+    /simple/.exec('simple');
+  })
   .on('cycle', function(event, bench) {
     console.log(String(bench));
   })
