@@ -21,7 +21,7 @@ function a(fullText) {
     if (testAndAssignMatch(matches)) return;
     matches = /(\d)\.?(\d?\d)/.exec(fullText)
     if (testAndAssignMatch(matches)) return;
-  })()
+  })();
 }
 
 
@@ -44,7 +44,7 @@ function b(fullText) {
 function reSwitch() {
   var str = arguments[0];
   var matches;
-  var i = 0;
+  var i = 1;
   while (i < arguments.length - 1) {
     matches = arguments[i].exec(str);
     var fun = arguments[++i];
@@ -84,4 +84,69 @@ function c(fullText) {
         num1 = parseInt(matches[1]);
         num2 = parseInt(matches[2]);
     }
+    );
 }
+
+function base() {
+  return;
+}
+
+function a10() {
+  a(fullText); a(fullText); a(fullText); a(fullText); a(fullText);
+  a(fullText); a(fullText); a(fullText); a(fullText); a(fullText);
+}
+function b10() {
+  b(fullText); b(fullText); b(fullText); b(fullText); b(fullText);
+  b(fullText); b(fullText); b(fullText); b(fullText); b(fullText);
+}
+function c10() {
+  c(fullText); c(fullText); c(fullText); c(fullText); c(fullText);
+  c(fullText); c(fullText); c(fullText); c(fullText); c(fullText);
+}
+function base10() {
+  base(); base(); base(); base(); base();
+  base(); base(); base(); base(); base();
+}
+
+function makeRecord(desc, count, start, finish) {
+  return {desc: desc, count: count, start: start, finish: finish};
+}
+
+(function main() {
+  console.log('hello');
+  var i;
+  var start;
+  var finish;
+  var results = {};
+  var count = 10000;
+  // base
+  start = Date.now();
+  for (i = 0; i < count; i++) { base10(); }
+  finish = Date.now();
+  results['base'] = makeRecord('empty function call', 10*count, start, finish);
+
+  // a
+  start = Date.now();
+  for (i = 0; i < count; i++) { a10(); }
+  finish = Date.now();
+  results['a'] = makeRecord('inline function', 10*count, start, finish);
+
+  // b
+  start = Date.now();
+  for (i = 0; i < count; i++) { b10(); }
+  finish = Date.now();
+  results['b'] = makeRecord('assignment inside if', 10*count, start, finish);
+
+  // c
+  start = Date.now();
+  for (i = 0; i < count; i++) { c10(); }
+  finish = Date.now();
+  results['c'] = makeRecord('RegExp switch meta function', 10*count, start, finish);
+
+  for (test in results) {
+    result = results[test];
+    console.log('Test: ' + test);
+    console.log('   ' + result.desc);
+    console.log('   ' + (result.finish - result.start)/result.count + ' ms');
+  }
+})();
