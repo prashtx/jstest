@@ -1,0 +1,9 @@
+{
+    "name" : "jstest"
+  , "version" : "0.0.1"
+  , "private" : true
+  , "dependencies": {
+        "benchmark" : ">=0.3.0"
+      , "microtime" : ">=0.2.0"
+  }
+}
